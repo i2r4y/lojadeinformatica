@@ -17,11 +17,11 @@ class UsuariosServices {
     async cadastrarUsuarios({ nome, email, password }: cadUsuarios) {
 
         const senhaCrypt = await hash(password, 8)
-        await prismaClient.usuario.create({
+        await prismaClient.cadastrarUsuarios.create({
             data: {
                 nome: nome,
                 email: email,
-                senha: senhaCrypt,
+                password: senhaCrypt,
                
             }
         })
@@ -29,7 +29,7 @@ class UsuariosServices {
     }
 
     async consultarUsuarios() {
-        const resposta = await prismaClient.usuario.findMany({
+        const resposta = await prismaClient.cadastrarUsuarios.findMany({
             select: {
                 id: true,
                 nome: true,
@@ -40,21 +40,21 @@ class UsuariosServices {
     }
 
     async consultarUsuariosUnico(id: string) {
-        const resposta = await prismaClient.usuario.findFirst({
+        const resposta = await prismaClient.cadastrarUsuarios.findFirst({
             where: {
                 id: id
             },
             select: {
                 nome: true,
                 email: true,
-                senha: true
+                password: true
             }
         })
         return resposta
     }
 
     async alterarDadosUsuarios({ id, nome, email }: AlterarUsuarios) {
-        await prismaClient.usuario.update({
+        await prismaClient.cadastrarUsuarios.update({
             where: {
                 id: id
             },
@@ -68,7 +68,7 @@ class UsuariosServices {
     }
 
     async apagarUsuarios(id: string) {
-        await prismaClient.usuario.delete({
+        await prismaClient.cadastrarUsuarios.delete({
             where: {
                 id: id
             }
